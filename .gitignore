@@ -7,6 +7,7 @@ __pycache__/
 *.log
 *.pot
 *.pyc
+.env
 __pycache__
 db.sqlite3
 media
