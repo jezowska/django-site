@@ -7,7 +7,28 @@ from .forms import CreateNewList
 
 def index(response, id):
     ls = ToDoList.objects.get(id=id)
+ 
+    if response.method == "POST":
+        if response.POST.get("save"):
+            for item in ls.item_set.all():
+                if response.POST.get("c" + str(item.id)) != "clicked":
+                    item.complete = False
+                else:
+                    item.complete = True
+                item.save()
+ 
+        elif response.POST.get("newItem"):
+            txt = response.POST.get("new")
+    
+            if len(txt) > 2:
+                ls.item_set.create(text=txt, complete=False)
+            else:
+                print("invalid")
+ 
+ 
     return render(response, "main/list.html", {"ls":ls})
+
+
 def home(response):
     return render(response, "main/home.html", {})
 
